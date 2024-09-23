@@ -1,5 +1,15 @@
 # Instagram-Clone
 Instagram clone using the SpringBoot and HTMl, CSS and the Hibernate. The database is SQL
+
+## Contributors
+    Mohnish Sasane
+    Isha Waghaye
+    Vaishnavi Hepat
+    Saksham Donge
+    Nidhi Bhoyar
+    Saurabh Jagare
+    Vidhan Deshpande
+
 ## Introduction:
 The Instagram Clone project is built using Spring Boot for the backend and React for the frontend. It replicates core functionalities of Instagram, such as user registration, post 
 management, likes, comments, and an admin panel for user and post management. The key feature of this application is a responsive and minimalist design that mimics Instagram’s user experience.
