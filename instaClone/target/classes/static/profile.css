@@ -1,0 +1,71 @@
+/* styles.css */
+
+/* Global Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  background-color: #f9f9f9;
+}
+
+h1, h2, h3 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+h1 {
+  font-size: 36px;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+a {
+  text-decoration: none;
+  color: #337ab7;
+}
+
+a:hover {
+  color: #23527c;
+}
+
+/* User Profile Section */
+.user-profile {
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.user-profile h2 {
+  margin-top: 0;
+}
+
+/* Comments Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #f0f0f0;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:hover {
+  background-color: #f2f2f2;
+}

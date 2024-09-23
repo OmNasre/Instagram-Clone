@@ -1,0 +1,109 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet"  th:href="@{/profile.css}">
+    <style>
+        /* Add styles for the post card */
+        .post-card {
+            border: 1px solid #dbdbdb;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            background-color: #ffffff;
+        }
+
+        .post-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .post-actions {
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .delete-button {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .delete-button:hover {
+            background-color: #cc0000;
+        }
+    </style>
+</head>
+<body>
+    <div class="user-profile">
+        <h1>User Profile</h1>
+        <div>
+            <h2 th:text="'Username: ' + ${user.username}"></h2>
+            <!-- Do not display password for security reasons -->
+        </div>
+
+        <h2>Your Posts</h2>
+        <div class="user-posts">
+            <div th:each="post : ${posts}" class="post-card">
+                <div class="post-header">
+                    <h3 th:text="'Post ID: ' + ${post.id}"></h3>
+                    <p th:text="${post.caption}"></p>
+                </div>
+                <img th:src="${post.imageUrl}" alt="Post Image">
+                <div class="post-actions">
+                    <button class="delete-button" th:attr="data-post-id=${post.id}" onclick="deletePost(this)">Delete</button>
+                </div>
+            </div>
+        </div>
+
+        <h2>Your Comments</h2>
+        <table style="margin-bottom: 47px;">
+            <thead>
+                <tr>
+                    <th>Comment ID</th>
+                    <th>Comment Text</th>
+                    <th>Post ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="comment : ${comments}">
+                    <td th:text="${comment.id}"></td>
+                    <td th:text="${comment.text}"></td>
+                    <td th:text="${comment.post.id}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a href="/posts">Back to Posts</a>
+    </div>
+
+    <script>
+        function deletePost(button) {
+            const postId = button.getAttribute('data-post-id');
+            if (confirm("Are you sure you want to delete this post?")) {
+                fetch(`/posts/${postId}/delete`, {
+                    method: 'DELETE'
+                }).then(response => {
+                    if (response.ok) {
+                        // Remove the post from the DOM or refresh the page
+                        button.closest('.post-card').remove();
+                    } else {
+                        alert("Failed to delete post.");
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>

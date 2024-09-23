@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Instagram Clone - Posts</title>
+<link th:href="@{/posts.css}" rel="stylesheet">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+<style>
+body {
+	font-family: Arial, sans-serif;
+	background-color: #fafafa;
+	margin: 0;
+	padding: 0;
+}
+
+.navbar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: #ffffff;
+	padding: 10px 20px;
+	border-bottom: 1px solid #dbdbdb;
+}
+
+.logo a {
+	font-size: 24px;
+	font-weight: bold;
+	color: #262626;
+	text-decoration: none;
+}
+
+.navbar .options {
+	display: flex;
+	gap: 15px;
+}
+
+.container {
+	padding: 20px;
+	max-width: 600px;
+	margin: auto;
+}
+
+.post-card {
+	background-color: #ffffff;
+	margin-bottom: 20px;
+	border: 1px solid #dbdbdb;
+	border-radius: 8px;
+	overflow: hidden;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.post-header {
+	display: flex;
+	align-items: center;
+	padding: 10px;
+}
+
+.profile-pic {
+	border-radius: 50%;
+	margin-right: 10px;
+}
+
+.post-image {
+	width: 100%;
+	height: auto;
+}
+
+.post-actions {
+	display: flex;
+	align-items: center;
+	padding: 10px;
+}
+
+.like-button {
+	background: none;
+	border: none;
+	color: #262626;
+	cursor: pointer;
+	font-size: 18px;
+	margin-right: 20px;
+}
+
+.likes-count {
+	padding-left: 10px;
+	font-weight: bold;
+}
+
+.comments-section {
+	padding: 10px;
+}
+
+.comment-item {
+	margin-bottom: 5px;
+}
+
+textarea {
+	width: 100%;
+	padding: 8px;
+	border: 1px solid #dbdbdb;
+	border-radius: 4px;
+	margin-bottom: 10px;
+}
+
+#addPostModal {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	justify-content: center;
+	align-items: center;
+}
+
+#addPostModal form {
+	background: white;
+	padding: 30px;
+	border-radius: 8px;
+	width: 400px; /* Increased width */
+	height: 300px; /* Increased height */
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	font-family: 'Arial', sans-serif;
+	display: flex;
+	flex-direction: column;
+}
+
+#addPostModal h2 {
+	margin-bottom: 20px;
+	text-align: center;
+	font-size: 20px; /* Stylish font size */
+	color: #262626;
+}
+
+#addPostModal input, #addPostModal textarea {
+	margin-bottom: 10px;
+	padding: 10px;
+	border: 1px solid #dbdbdb;
+	border-radius: 4px;
+	font-size: 16px; /* Stylish font size */
+}
+
+#addPostModal button {
+	padding: 10px;
+	background-color: #0095f6;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 16px;
+	margin-bottom: 30px; /* Stylish font size */
+}
+
+#addPostModal button:hover {
+	background-color: #007bbf; /* Darker shade on hover */
+}
+
+.like-button {
+    background: none;
+    border: none;
+    color: #262626;
+    cursor: pointer;
+    font-size: 18px;
+    margin-right: 20px;
+}
+
+.like-button.liked span {
+    color: blue; /* Change text color to blue when liked */
+}
+
+</style>
+</head>
+<body>
+	<nav class="navbar">
+		<div class="logo">
+			<a href="#">Instagram</a>
+		</div>
+		<div class="options">
+			<a id="profileButton" class="button-63" th:href="@{/profile}">Profile</a>
+			<button id="addPostButton" class="button-63" style="margin-right: 62px;">Add Post</button>
+		</div>
+	</nav>
+
+	<div class="container">
+		<div class="post-list">
+			<div th:each="post : ${posts}" class="post-card">
+				<div class="post-header">
+					<div>
+					<div style="display: flex; justify-content: space-between;width: 515px;">
+						<p class="username" th:text="${post.user.username}">Username</p>
+						<button class="delete-post-button button-87" th:if="${post.user.userId == userId}" th:data-post-id="${post.id}" onclick="deletePost(this)">Delete Post</button>
+						
+					</div>
+						
+						<hr>
+						Caption:
+						<p class="caption" th:text="${post.caption}" style="padding-top: 10px;">Caption goes here</p>
+					</div>
+				</div>	
+				<img th:src="${post.imageUrl}" alt="Post Image" class="post-image">
+				<div class="post-actions">
+					    <button class="like-button" th:classappend="${post.likes.contains(user) ? 'liked' : ''}" th:data-post-id="${post.id}" onclick="likePost(this)">
+    <i class="fas fa-heart"></i> <span th:text="${post.likes.contains(user) ? 'Unlike' : 'Like'}"></span>
+</button>
+
+					<button class="comment-button">
+						<i class="fas fa-comment"></i> Comment
+					</button>
+				</div>
+				<p class="likes-count" th:text="${post.likes.size()} + ' likes'">0 likes</p>
+				<div class="comments-section">
+					<h3>Comments</h3>
+					<div class="comments-section2" style="display: flex; flex-direction: column;">
+						<div th:each="comment : ${post.comments}" class="comment-item" style= " display: flex; justify-content: space-between;  align-items: center;">
+							<div>
+							<strong th:text="${comment.user.username}">User</strong>: <span th:text="${comment.text}">Comment text</span>
+							</div>
+							<div>
+							<button class="edit-comment-button button-33" th:if="${comment.user.userId == userId}" th:data-comment-id="${comment.id}" onclick="showEditCommentModal(this)">Edit</button>
+							<button class="delete-comment-button button-33" th:if="${comment.user.userId == userId}" th:data-comment-id="${comment.id}" onclick="deleteComment(this)">Delete</button>
+							</div>
+							</div>
+					</div>
+					<form action="/comments" method="post">
+						<input type="hidden" name="postId" th:value="${post.id}">
+						<textarea name="text" required></textarea>
+						<button type="submit" class="button-85">Add Comment</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal for Add Post -->
+	<div id="addPostModal">
+		<form id="addPostForm" style="margin-block: 200px; margin-inline: 546px;">
+			<h2>Add New Post</h2>
+			<input type="text" id="caption" placeholder="Caption" required />
+			<input type="text" id="imageUrl" placeholder="Image URL" required />
+			<button type="submit" style="margin-bottom: 30px;">Add Post</button>
+			<button type="button" id="closeModal">Close</button>
+		</form>
+	</div>
+
+	<!-- Modal for Editing Comment -->
+	<div id="editCommentModal">
+		<form id="editCommentForm">
+			<h2>Edit Comment</h2>
+			<textarea id="editCommentText" required></textarea>
+			<input type="hidden" id="editCommentId" />
+			<button type="submit">Update Comment</button>
+			<button type="button" id="closeEditModal">Close</button>
+		</form>
+	</div>
+
+	<script src="posts.js"></script>
+</body>
+</html>
+

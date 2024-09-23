@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Page</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <style>
+        body {
+            font-family:   
+ Arial, sans-serif; /* Base font for a clean look */
+        }
+
+        h1, h2 {
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%; /* Ensure tables fill the available space */
+            border-collapse: collapse; /* Remove borders between cells */
+        }
+
+        thead th {
+            padding: 10px 15px; /* Consistent padding for headers */
+            border: 1px solid #ddd; /* Light border for separation */
+            background-color: #f2f2f2; /* Subtle background for headers */
+            text-align: left; /* Align content to the left */
+        }
+
+        tbody td {
+            padding: 10px 15px; /* Consistent padding for cells */
+            border: 1px solid #ddd; /* Light border for separation */
+        }
+
+        .action-button {
+            background-color: #f0ad4e; /* Orange for a call to action */
+            color: #fff; /* White text for readability */
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px; /* Rounded corners for a modern look */
+            cursor: pointer; /* Indicate clickable nature */
+        }
+        .title{
+        width:100%;
+        height:40px;
+        display: flex;
+        justify-content: center;
+        }
+    </style>
+</head>
+<body>
+<div class="title">
+    <h1>Admin Dashboard</h1>
+</div>
+
+    <h2>Users</h2>
+    <table class="table table-striped"> <thead>
+            <tr>
+                <th>Username</th>
+                <th class="text-truncate">Password (Encrypted)</th> <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.username}"></td>
+                <td th:text = "${user.password}"></td>  <td>
+                    <form th:action="@{/admin/deleteUser}" method="post">
+                        <input type="hidden" th:name="userId" th:value="${user.userId}" />
+                        <button type="submit" class="action-button">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Posts</h2>
+    <table class="table table-striped"> <thead>
+            <tr>
+                <th>Post ID</th>
+                <th>Content</th>
+                <th>Username</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="post : ${posts}">
+                <td th:text="${post.id}"></td>
+                <td th:text="${post.caption}"></td>
+                <td th:text="${post.user.username}"></td>
+                <td>
+                    <form th:action="@{/admin/deletePost}" method="post">
+                        <input type="hidden" th:name="postId" th:value="${post.id}" />
+                        <button type="submit" class="action-button">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVFQWjT+8B9vD+YlwaZBUiDJuVrGQVxC+dQgkfj4DnfzHJUcWXLq"   
+ crossorigin="anonymous"></script>
+</body>
+</html>
