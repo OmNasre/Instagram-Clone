@@ -1,5 +1,5 @@
 # Instagram-Clone
-Instagram clone using the SpringBoot and HTMl, CSS and the Hibernate. The database is SQL
+Instagram clone using the SpringBoot and HTMl, CSS and the Hibernate and the DB is SQL
 
 ## Contributors
     Mohnish Sasane
@@ -11,7 +11,7 @@ Instagram clone using the SpringBoot and HTMl, CSS and the Hibernate. The databa
     Vidhan Deshpande
 
 ## Introduction:
-The Instagram Clone project is built using Spring Boot for the backend and React for the frontend. It replicates core functionalities of Instagram, such as user registration, post 
+The Instagram Clone project is built using Spring Boot for the backend and HTML, CSS for the frontend. It replicates core functionalities of Instagram, such as user registration, post 
 management, likes, comments, and an admin panel for user and post management. The key feature of this application is a responsive and minimalist design that mimics Instagram’s user experience.
 
 # Key Features:
@@ -68,12 +68,15 @@ The profile page fetches all the posts created by the user and displays them in 
 User Table:
 
 Stores user details such as userId, username, password, and role.
+
 Post Table:
 
 Stores post information including postId, userId, image, and caption.
+
 Comment Table:
 
 Stores comments related to posts with commentId, postId, userId, and text.
+
 Like Table:
 
 Stores likes associated with posts and users, with likeId, postId, and userId.
